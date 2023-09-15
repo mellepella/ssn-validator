@@ -1,7 +1,16 @@
 class SwedishSocialSecurityNumberValidator 
-  def initialize(socialSecurityNumber)
+  def initialize socialSecurityNumber
     @socialSecurityNumber = socialSecurityNumber
   end
-end
 
-validator = SwedishSocialSecurityNumberValidator.new("20040917-7953")
+  def correctLength?
+    @socialSecurityNumber.length == 13 ||
+    @socialSecurityNumber.length == 12 ||
+    @socialSecurityNumber.length == 11 ||
+    @socialSecurityNumber.length == 10
+  end
+
+  def valid?
+    correctLength?
+  end
+end
