@@ -10,14 +10,11 @@ class Formatter
 
   def formatted_value
     if format?
-      case @original_value.size
-      when 12
-        @original_value.insert(8, "-")
-      else
-        @original_value
+      if @original_value.size == 12
+        return @original_value.insert(8, "-")
       end
-    else
-      @original_value
     end
+
+    return @original_value
   end
 end

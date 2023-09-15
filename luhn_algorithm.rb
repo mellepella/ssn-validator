@@ -6,9 +6,9 @@ def luhn_algorithm numbers
   numbers.each_char.with_index do |char, index|
     if char.numeric?
       if index.even?
-       multiplied_value = Integer(char) * 2;
-        values_array = multiplied_value.to_s.scan(/./)
-        values_array.each {|num| sum += Integer(num)}
+        multiplied_value = Integer(char) * 2;
+        separated_values = multiplied_value.to_s.scan(/./)
+        separated_values.each {|num| sum += Integer(num)}
       else 
         sum += Integer(char);
       end
