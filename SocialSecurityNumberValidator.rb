@@ -50,12 +50,15 @@ class SocialSecurityNumberValidator
 
     control_number = luhn_algorithm_sum.ceil(-1) - luhn_algorithm_sum;
 
-    return control_number
+    control_number
   end
 
   def legacy_format?
     birth_year = get_birth_year
-    birth_year >= @legacy_format_start_date.year && birth_year <= @legacy_format_end_date.year
+    is_after_start_date = birth_year >= @legacy_format_start_date.year
+    is_before_end_date = birth_year <= @legacy_format_end_date.year
+
+    is_after_start_date && is_before_end_date
   end
 
   def correct_size?
@@ -73,11 +76,12 @@ class SocialSecurityNumberValidator
       return false
     end
 
-
     birth_date = get_birth_date
     now = Date.today;
+    is_before_now = birth_date <= now
+    is_after_start_date = birth_date >= @legacy_format_start_date
 
-    return birth_date <= now && birth_date >= @legacy_format_start_date;
+    return  is_before_now && is_after_start_date;
   end
   
   def valid_control_number?
@@ -88,6 +92,8 @@ class SocialSecurityNumberValidator
 
   def valid?
     if legacy_format?
+      # The legacy format (between year 1947 - 1967) has no control number,
+      # and it should therefore not be validated.
       return correct_size? && valid_birth_date?
     end
 
