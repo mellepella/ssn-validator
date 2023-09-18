@@ -4,6 +4,8 @@ require 'date'
 
 class SocialSecurityNumberValidator 
   def initialize social_security_number
+    #TODO: CHANGE FORMAT TO: YYMMDD, YYYY DOES NOT WORK WHEN CALCULATING THE CONTROL NUMBER
+
     # My thought process is that to have a united format that I validate,
     # and if the original string is not that format I will try to convert it.
     # I do this to only have to validate one format, while making how you write
@@ -47,6 +49,7 @@ class SocialSecurityNumberValidator
     # Make sure we do not include the control number itself
     number_without_control_number = get_number_without_control_number
     luhn_algorithm_sum = luhn_algorithm number_without_control_number
+    puts @social_security_number
 
     control_number = luhn_algorithm_sum.ceil(-1) - luhn_algorithm_sum;
 
@@ -86,7 +89,6 @@ class SocialSecurityNumberValidator
   
   def valid_control_number?
     control_number = @social_security_number[12].to_i
-
     control_number == get_control_number
   end
 

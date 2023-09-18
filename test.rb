@@ -65,3 +65,11 @@ test "it invalidates a non-legacy social security number without a control numbe
 test_14_validator = SocialSecurityNumberValidator.new "19480917-7953"
 test_14_results = test_14_validator.valid?
 test "it invalidates a legacy social security number with a control number", test_14_results, false
+
+test_15_validator = SocialSecurityNumberValidator.new "20040917-7953"
+test_15_results = test_15_validator.valid?
+test "it correctly validates a valid social security number", test_15_results, true
+
+test_16_validator = SocialSecurityNumberValidator.new "19940611-6673"
+test_16_results = test_16_validator.valid?
+test "it correctly validates a valid social security number before the 2000s", test_16_results, true
