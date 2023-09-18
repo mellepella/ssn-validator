@@ -40,16 +40,15 @@ class SocialSecurityNumberValidator
     birth_date = Date.parse("#{year}-#{month}-#{day}")
   end
 
-  def get_number_without_control_number
-    @social_security_number[0..(@expected_size - 2)]
+  def get_ssn_for_control_number_calculations
+    @social_security_number[2..(@expected_size - 2)]
   end
 
   # The control number is based on the sum of the Luhn algorithm.
   def get_control_number
     # Make sure we do not include the control number itself
-    number_without_control_number = get_number_without_control_number
+    number_without_control_number = get_ssn_for_control_number_calculations
     luhn_algorithm_sum = luhn_algorithm number_without_control_number
-    puts @social_security_number
 
     control_number = luhn_algorithm_sum.ceil(-1) - luhn_algorithm_sum;
 

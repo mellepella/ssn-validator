@@ -70,6 +70,6 @@ test_15_validator = SocialSecurityNumberValidator.new "20040917-7953"
 test_15_results = test_15_validator.valid?
 test "it correctly validates a valid social security number", test_15_results, true
 
-test_16_validator = SocialSecurityNumberValidator.new "19940611-6673"
+test_16_validator = SocialSecurityNumberValidator.new "19940611-6674"
 test_16_results = test_16_validator.valid?
 test "it correctly validates a valid social security number before the 2000s", test_16_results, true
