@@ -10,54 +10,54 @@ def test(name, actual, expected)
   end
 end
 
-test1Formatter = Formatter.new "200409177953"
-test1Results = test1Formatter.formatted_value
-test "it correctly formats a variant without a hyphen", test1Results, "20040917-7953"
+test_1_formatter = Formatter.new "200409177953"
+test_1_results = test_1_formatter.formatted_value
+test "it correctly formats a variant without a hyphen", test_1_results, "20040917-7953"
 
-test2Formatter = Formatter.new "20040917-7953"
-test1Results = test1Formatter.formatted_value
-test "it correctly formats a complete variant with a hyphen", test1Results, "20040917-7953"
+test_2_formatter = Formatter.new "20040917-7953"
+test_2_results = test_2_formatter.formatted_value
+test "it correctly formats a complete variant with a hyphen", test_2_results, "20040917-7953"
 
-test3Validator = SocialSecurityNumberValidator.new "2004091779"
-test3Results = test3Validator.valid?
-test "it correctly recognizes a number that is too short", test3Results, false
+test_3_validator = SocialSecurityNumberValidator.new "2004091779"
+test_3_results = test_3_validator.valid?
+test "it correctly recognizes a number that is too short", test_3_results, false
 
-test4Validator = SocialSecurityNumberValidator.new "200409177955"
-test4Results = test4Validator.valid?
-test "it correctly recognizes an incorrect control number when no hyphen", test4Results, false
+test_4_validator = SocialSecurityNumberValidator.new "200409177955"
+test_4_results = test_4_validator.valid?
+test "it correctly recognizes an incorrect control number when no hyphen", test_4_results, false
 
-test5Validator = SocialSecurityNumberValidator.new "20040917-7955"
-test5Results = test5Validator.valid?
-test "it correctly recognizes an incorrect control number when hyphen is present", test5Results, false
+test_5_validator = SocialSecurityNumberValidator.new "20040917-7955"
+test_5_results = test_5_validator.valid?
+test "it correctly recognizes an incorrect control number when hyphen is present", test_5_results, false
 
-test6Validator = SocialSecurityNumberValidator.new "20040917-7953"
-test6Results = test6Validator.valid?
-test "it correctly recognizes a correct control number", test6Results, true
+test_6_validator = SocialSecurityNumberValidator.new "20040917-7953"
+test_6_results = test_6_validator.valid?
+test "it correctly recognizes a correct control number", test_6_results, true
 
-test7Validator = SocialSecurityNumberValidator.new "200409177953"
-test7Results = test7Validator.valid?
-test "it correctly recognizes a correct control number when no hyphen", test7Results, true
+test_7_validator = SocialSecurityNumberValidator.new "200409177953"
+test_7_results = test_7_validator.valid?
+test "it correctly recognizes a correct control number when no hyphen", test_7_results, true
 
-test8Validator = SocialSecurityNumberValidator.new "20350917-7956"
-test8Results = test8Validator.valid?
-test "it correctly recognizes a date that has not yet passed", test8Results, false
+test_8_validator = SocialSecurityNumberValidator.new "20350917-7956"
+test_8_results = test_8_validator.valid?
+test "it correctly recognizes a date that has not yet passed", test_8_results, false
 
-test9Validator = SocialSecurityNumberValidator.new "20041317-7953"
-test9Results = test9Validator.valid?
-test "it correctly recognizes an invalid month", test9Results, false
+test_9_validator = SocialSecurityNumberValidator.new "20041317-7953"
+test_9_results = test_9_validator.valid?
+test "it correctly recognizes an invalid month", test_9_results, false
 
-test10Validator = SocialSecurityNumberValidator.new "20040932-7954"
-test10Results = test10Validator.valid?
-test "it correctly recognizes an invalid day", test10Results, false
+test_10_ralidator = SocialSecurityNumberValidator.new "20040932-7954"
+test_10_results = test_10_ralidator.valid?
+test "it correctly recognizes an invalid day", test_10_results, false
 
-test11Validator = SocialSecurityNumberValidator.new "19480917-795"
-test11Results = test11Validator.valid?
-test "it correctly recognizes a valid legacy social security number", test11Results, true
+test_11_validator = SocialSecurityNumberValidator.new "19480917-795"
+test_11_results = test_11_validator.valid?
+test "it correctly recognizes a valid legacy social security number", test_11_results, true
 
-test12Validator = SocialSecurityNumberValidator.new "19480917795"
-test12Results = test12Validator.valid?
-test "it correctly recognizes a legacy social security number without a hyphen", test12Results, true
+test_12_validator = SocialSecurityNumberValidator.new "19480917795"
+test_12_results = test_12_validator.valid?
+test "it correctly recognizes a legacy social security number without a hyphen", test_12_results, true
 
-test13Validator = SocialSecurityNumberValidator.new "19880917-795"
-test13Results = test13Validator.valid?
-test "it invalidates a non-legacy social security number without a control number", test13Results, false
+test_13_validator = SocialSecurityNumberValidator.new "19880917-795"
+test_13_results = test_13_validator.valid?
+test "it invalidates a non-legacy social security number without a control number", test_13_results, false
