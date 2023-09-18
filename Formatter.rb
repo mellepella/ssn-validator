@@ -18,26 +18,29 @@ class Formatter
 
   def format?
     if legacy_format?
-      return !(@original_value.size == @expected_legacy_size)
+      is_correct_size = @original_value.size == @expected_legacy_size
+      return !is_correct_size
     end
 
-    !(@original_value.size == @expected_size)
+    is_correct_size = @original_value.size == @expected_size
+    !(is_correct_size)
   end
 
   def formatted_value
-    if format?
-      # For the "standard" format when no hyphen. (YYYYMMDDXXXX)
-      if @original_value.size == 12
-        return @original_value.insert(8, "-")
+    should_not_format = !format?
+    return @original_value if should_not_format
 
-      # Between the years 1947 and 1967 no control number was present,
-      # therefore this application must also accept social security numbers
-      # without a control number, and with no hyphen. (YYYYMMDD-XXX)
-      elsif @original_value.size == 11
-        return @original_value.insert(8, "-")
-      end
+    # For the "standard" format when no hyphen. (YYYYMMDDXXXX)
+    if @original_value.size == 12
+      return @original_value.insert(8, "-")
+
+    # Between the years 1947 and 1967 no control number was present,
+    # therefore this application must also accept social security numbers
+    # without a control number, and with no hyphen. (YYYYMMDD-XXX)
+    elsif @original_value.size == 11
+      return @original_value.insert(8, "-")
+
+    else return @original_value
     end
-
-    return @original_value
   end
 end

@@ -81,7 +81,7 @@ class SocialSecurityNumberValidator
     is_before_now = birth_date <= now
     is_after_start_date = birth_date >= @legacy_format_start_date
 
-    return  is_before_now && is_after_start_date;
+    return is_before_now && is_after_start_date;
   end
   
   def valid_control_number?

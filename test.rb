@@ -61,3 +61,7 @@ test "it correctly recognizes a legacy social security number without a hyphen",
 test_13_validator = SocialSecurityNumberValidator.new "19880917-795"
 test_13_results = test_13_validator.valid?
 test "it invalidates a non-legacy social security number without a control number", test_13_results, false
+
+test_14_validator = SocialSecurityNumberValidator.new "19480917-7953"
+test_14_results = test_14_validator.valid?
+test "it invalidates a legacy social security number with a control number", test_14_results, false
