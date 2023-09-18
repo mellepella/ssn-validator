@@ -31,16 +31,16 @@ class Formatter
     return @original_value if should_not_format
 
     # For the "standard" format when no hyphen. (YYYYMMDDXXXX)
-    if @original_value.size == 12
-      return @original_value.insert(8, "-")
-
-    # Between the years 1947 and 1967 no control number was present,
-    # therefore this application must also accept social security numbers
-    # without a control number, and with no hyphen. (YYYYMMDD-XXX)
-    elsif @original_value.size == 11
-      return @original_value.insert(8, "-")
-
-    else return @original_value
+    case @original_value.size
+      when 12
+        return @original_value.insert(8, "-")
+      # Between the years 1947 and 1967 no control number was present,
+      # therefore this application must also accept social security numbers
+      # without a control number, and with no hyphen. (YYYYMMDD-XXX)
+      when 11
+        return @original_value.insert(8, "-")
     end
+
+    return @original_value
   end
 end
