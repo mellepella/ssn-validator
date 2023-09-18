@@ -13,45 +13,84 @@ class SocialSecurityNumberValidator
     @formatter = Formatter.new social_security_number
     @social_security_number = @formatter.formatted_value
     @expected_size = 13;
+    @expected_legacy_size = 12;
+    @legacy_format_start_date = Date.new(1947, 1, 1)
+    @legacy_format_end_date = Date.new(1967, 1, 1)
+  end
+
+  def get_birth_year
+    @social_security_number[0..3].to_i
+  end
+
+  def get_birth_month
+    @social_security_number[4..5].to_i
+  end
+
+  def get_birth_day
+    @social_security_number[6..7].to_i
   end
 
   def get_birth_date
-    year = @social_security_number[0..3]
-    month = @social_security_number[4..5]
-    day = @social_security_number[6..7]
+    year = get_birth_year
+    month = get_birth_month
+    day = get_birth_day
 
     birth_date = Date.parse("#{year}-#{month}-#{day}")
+  end
+
+  def get_number_without_control_number
+    @social_security_number[0..(@expected_size - 2)]
   end
 
   # The control number is based on the sum of the Luhn algorithm.
   def get_control_number
     # Make sure we do not include the control number itself
-    number_without_control_number = @social_security_number[0..(@expected_size - 2)]
-    sum = luhn_algorithm number_without_control_number
+    number_without_control_number = get_number_without_control_number
+    luhn_algorithm_sum = luhn_algorithm number_without_control_number
 
-    control_number = sum.ceil(-1) - sum;
+    control_number = luhn_algorithm_sum.ceil(-1) - luhn_algorithm_sum;
 
     return control_number
   end
 
+  def legacy_format?
+    birth_year = get_birth_year
+    birth_year >= @legacy_format_start_date.year && birth_year <= @legacy_format_end_date.year
+  end
+
   def correct_size?
+    if legacy_format?
+      return @social_security_number.size == @expected_legacy_size
+    end
+
     @social_security_number.size == @expected_size
   end
 
   def valid_birth_date?
+    is_valid_date = Date.valid_date? get_birth_year, get_birth_month, get_birth_day
+
+    if !is_valid_date
+      return false
+    end
+
+
     birth_date = get_birth_date
     now = Date.today;
 
-    return birth_date <= now;
+    return birth_date <= now && birth_date >= @legacy_format_start_date;
   end
   
   def valid_control_number?
-    control_number = Integer(@social_security_number[12])
+    control_number = @social_security_number[12].to_i
 
     control_number == get_control_number
   end
 
   def valid?
+    if legacy_format?
+      return correct_size? && valid_birth_date?
+    end
+
     correct_size? && valid_birth_date? && valid_control_number?
   end
 end

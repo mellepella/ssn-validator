@@ -41,3 +41,23 @@ test "it correctly recognizes a correct control number when no hyphen", test7Res
 test8Validator = SocialSecurityNumberValidator.new "20350917-7956"
 test8Results = test8Validator.valid?
 test "it correctly recognizes a date that has not yet passed", test8Results, false
+
+test9Validator = SocialSecurityNumberValidator.new "20041317-7953"
+test9Results = test9Validator.valid?
+test "it correctly recognizes an invalid month", test9Results, false
+
+test10Validator = SocialSecurityNumberValidator.new "20040932-7954"
+test10Results = test10Validator.valid?
+test "it correctly recognizes an invalid day", test10Results, false
+
+test11Validator = SocialSecurityNumberValidator.new "19480917-795"
+test11Results = test11Validator.valid?
+test "it correctly recognizes a valid legacy social security number", test11Results, true
+
+test12Validator = SocialSecurityNumberValidator.new "19480917795"
+test12Results = test12Validator.valid?
+test "it correctly recognizes a legacy social security number without a hyphen", test12Results, true
+
+test13Validator = SocialSecurityNumberValidator.new "19880917-795"
+test13Results = test13Validator.valid?
+test "it invalidates a non-legacy social security number without a control number", test13Results, false
