@@ -23,24 +23,25 @@ class Formatter
     end
 
     is_correct_size = @original_value.size == @expected_size
-    !(is_correct_size)
+    !is_correct_size
   end
 
   def formatted_value
     should_not_format = !format?
     return @original_value if should_not_format
 
-    # For the "standard" format when no hyphen. (YYYYMMDDXXXX)
     case @original_value.size
+      # For the "standard" format when no hyphen. (YYYYMMDDXXXX)
       when 12
         return @original_value.insert(8, "-")
+
       # Between the years 1947 and 1967 no control number was present,
       # therefore this application must also accept social security numbers
-      # without a control number, and with no hyphen. (YYYYMMDD-XXX)
+      # without a control number, and with no hyphen. (YYYYMMDDXXX)
+      # This according to: http://www.hhogman.se/personnr_sv.htm
       when 11
         return @original_value.insert(8, "-")
     end
-
     return @original_value
   end
 end

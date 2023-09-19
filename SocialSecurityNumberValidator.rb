@@ -4,8 +4,6 @@ require 'date'
 
 class SocialSecurityNumberValidator 
   def initialize social_security_number
-    #TODO: CHANGE FORMAT TO: YYMMDD, YYYY DOES NOT WORK WHEN CALCULATING THE CONTROL NUMBER
-
     # My thought process is that to have a united format that I validate,
     # and if the original string is not that format I will try to convert it.
     # I do this to only have to validate one format, while making how you write
@@ -40,19 +38,23 @@ class SocialSecurityNumberValidator
     birth_date = Date.parse("#{year}-#{month}-#{day}")
   end
 
+  def get_control_number
+    @social_security_number[12].to_i
+  end
+
   def get_ssn_for_control_number_calculations
+    # In the calculations for the control number the decade ("20", in "2004")
+    # is excluded.
     @social_security_number[2..(@expected_size - 2)]
   end
 
   # The control number is based on the sum of the Luhn algorithm.
-  def get_control_number
+  def calculate_control_number
     # Make sure we do not include the control number itself
-    number_without_control_number = get_ssn_for_control_number_calculations
-    luhn_algorithm_sum = luhn_algorithm number_without_control_number
+    number_for_calculations = get_ssn_for_control_number_calculations
+    luhn_algorithm_sum = luhn_algorithm number_for_calculations
 
-    control_number = luhn_algorithm_sum.ceil(-1) - luhn_algorithm_sum;
-
-    control_number
+    luhn_algorithm_sum.ceil(-1) - luhn_algorithm_sum;
   end
 
   def legacy_format?
@@ -87,8 +89,7 @@ class SocialSecurityNumberValidator
   end
   
   def valid_control_number?
-    control_number = @social_security_number[12].to_i
-    control_number == get_control_number
+    get_control_number == calculate_control_number
   end
 
   def valid?

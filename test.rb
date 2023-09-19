@@ -73,3 +73,18 @@ test "it correctly validates a valid social security number", test_15_results, t
 test_16_validator = SocialSecurityNumberValidator.new "19940611-6674"
 test_16_results = test_16_validator.valid?
 test "it correctly validates a valid social security number before the 2000s", test_16_results, true
+
+# Just some abuse testing to make sure nothing has been missed
+valid_ssn = ["201603196484", "197003015265", "19960204-4332", "198510096889"]
+valid_ssn.each.with_index do |ssn, index|
+  validator = SocialSecurityNumberValidator.new ssn
+  results = validator.valid?
+  test "it correctly validates valid values (#{index + 1}/#{valid_ssn.size})", results, true
+end
+
+invalid_ssn = ["202503196489", "193303015265", "1996020434332", "19851090-6889"]
+invalid_ssn.each.with_index do |ssn, index|
+  validator = SocialSecurityNumberValidator.new ssn
+  results = validator.valid?
+  test "it correctly invalidates invalid values (#{index + 1}/#{invalid_ssn.size})", results, false
+end
